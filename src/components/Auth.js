@@ -7,7 +7,7 @@ const Auth = () => {
             <h4>Auth</h4>
             <Link to='/exams'>Exams</Link>
         </div>
-    )
+    ) 
 }
 
 export default (Auth)
