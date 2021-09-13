@@ -1,22 +1,21 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 import { alpha, makeStyles } from '@material-ui/core/styles';
 import {
     AppBar,
     Toolbar,
-    IconButton,
     Typography,
     InputBase,
     MenuItem,
     Select,
     Button,
+    ListItem,
+    ListItemText
 } from '@material-ui/core'
-import {
-
-} from '@material-ui/icons'
 import SearchIcon from '@material-ui/icons/Search';
-import AccountCircle from '@material-ui/icons/AccountCircle';
-import { Link } from 'react-router-dom'
-import { appName, menuList } from '../config/constants'
+
+import { AvatarIcon } from './styles'
+import { appName, menuList } from '../../config/constants'
 
 const useStyles = makeStyles((theme) => ({
     grow: {
@@ -155,9 +154,10 @@ const Header = () => {
                             id="demo-simple-select"
                             value={'Mathematics'}
                             onChange={(v) => console.log(v)}
+                            style={{ color: 'white', }}
 
                         >
-                            <MenuItem value={'Mathematics'}>Mathematics</MenuItem>
+                            <MenuItem value={'Mathematics'} >Mathematics</MenuItem>
                             <MenuItem value={'Romania'}>Romania</MenuItem>
                         </Select>
                     </div>
@@ -195,35 +195,13 @@ const Header = () => {
                     <div className={classes.grow} />
                     <div className={classes.sectionDesktop}>
 
-                        <div className={classes.inlineContainer}>
-                            <div className={classes.pullRight}>
-                                <Typography className={classes.userRole} variant="h7" noWrap>
-                                    Cont Professor
-                                </Typography>
-                                <Typography className={classes.userName} variant="h7" noWrap>
-                                    rei koleci
-                                </Typography>
-                                <Typography className={classes.logOff} variant="h7" noWrap>
-                                    log off
-                                </Typography>
-                            </div>
-                            <IconButton
-                                edge="end"
-                                aria-label="account of current user"
-                                aria-controls={menuId}
-                                aria-haspopup="true"
-                                onClick={handleProfileMenuOpen}
-                                color="inherit"
-                            >
-                                <AccountCircle />
-                            </IconButton>
-                        </div>
-                    </div>
-
+                        <ListItem>
+                            <ListItemText primary={'Rei Koleci'} secondary={'Professor'} />
+                            <AvatarIcon>RK</AvatarIcon>
+                        </ListItem>
+                    </div> 
                 </Toolbar>
-            </AppBar>
-
-
+            </AppBar> 
         </div>
     );
 }

@@ -1,9 +1,10 @@
 import { combineReducers } from "redux";
 
-import { searchRequest } from './core/reducers/exams'
+import { searchRequest, clearFilters } from './core/reducers/exams'
 
 const appReducer = combineReducers({
-  searchRequest
+  searchRequest,
+  clearFilters,
 });
 
 const rootReducer = (state, action) => {
