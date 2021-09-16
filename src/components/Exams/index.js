@@ -108,7 +108,7 @@ const Exams = ({ searchRequest, clearFilters, openBottomSheet, closeBottomSheet,
     const Results = () => {
         const { fetching, fetched, data, errored, error } = results
 
-        if (true) {
+        if (fetching) {
             return (
                 <Grid item xs={12} align="center" style={{ minHeight: "100%", background: 'red' }}>
                     <CircularProgress />
