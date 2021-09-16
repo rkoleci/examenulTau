@@ -36,6 +36,7 @@ pipeline {
         branch 'master'
       }
       steps {
+        sh 'npm install'
         sh 'npm run build'
       }
     }
@@ -45,6 +46,7 @@ pipeline {
         branch 'develop'
       }
       steps {
+        sh 'npm install'
         sh 'npm run build'
       }
     }
