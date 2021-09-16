@@ -14,7 +14,7 @@ import {
 } from '@material-ui/core'
 import SearchIcon from '@material-ui/icons/Search';
 
-import { AvatarIcon } from './styles'
+import { AvatarIcon, SecondaryText } from './styles'
 import { appName, menuList } from '../../config/constants'
 
 const useStyles = makeStyles((theme) => ({
@@ -196,7 +196,10 @@ const Header = () => {
                     <div className={classes.sectionDesktop}>
 
                         <ListItem>
-                            <ListItemText primary={'Rei Koleci'} secondary={'Professor'} />
+                            <ListItemText 
+                                primary={'Rei Koleci'} 
+                                secondary={<SecondaryText>Profesor</SecondaryText>} 
+                            />
                             <AvatarIcon>RK</AvatarIcon>
                         </ListItem>
                     </div> 

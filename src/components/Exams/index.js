@@ -13,30 +13,38 @@ import {
 } from '@material-ui/core'
 import HighlightOffIcon from '@material-ui/icons/HighlightOff';
 import FilterListIcon from '@material-ui/icons/FilterList';
+import Skeleton from 'react-loading-skeleton';
 
 import { Title, Test, TotalLength, Filtered, Inline } from './styles'
 
 import Common from '../../common'
-import { searchRequest, clearFilters } from '../../core/actions/exams'
+import { searchRequest, clearFilters, openBottomSheet, closeBottomSheet, changeExamsPage } from '../../core/actions/exams'
 import { filters } from '../../config/constants'
+import Selected from './Selected'
+import { InlineSpaced } from '../../common/ExamItem/styles';
 
 const PAGE_RESULTS_LIMIT = 10;
 
 const useStyles = makeStyles((theme) => ({
     root: {
         flexGrow: 1,
+        padding: 16
     },
 }));
 
-const Exams = ({ searchRequest, clearFilters }) => {
+const Exams = ({ searchRequest, clearFilters, openBottomSheet, closeBottomSheet, changeExamsPage }) => {
     const classes = useStyles();
     const [total, setTotal] = useState('')
     const [current, setCurrent] = useState(0)
     const [filtered, setFiltered] = useState('')
     const [selectedItems, setSelectedItems] = useState([])
     const [filtersModalOpen, setFiltersModalOpen] = useState(false)
+    const [previewIcon, setPreviewIcon] = useState('')
+    const [errorOpen, setErrorOpen] = useState('')
+    const [menu, setMenu] = useState(0)
 
     const results = useSelector(state => state.searchRequest)
+    const examsPage = useSelector(state => state.examsPage)
 
     const isMobile = useMediaQuery('(max-width:450px)');
 
@@ -67,14 +75,44 @@ const Exams = ({ searchRequest, clearFilters }) => {
         }
     }, [results])
 
+    useEffect(() => {
+        if (selectedItems.length == 0) {
+            closeBottomSheet()
+        } else {
+            openBottomSheet({ length: selectedItems.length })
+        }
+        
+    }, [selectedItems])
+
+    useEffect(() => {
+        if (examsPage.menu == 0) {
+            if (menu !== 0) setMenu(0)
+        }
+        if (examsPage.menu == 1) {
+            if (menu !== 1) {
+                closeBottomSheet()
+                setMenu(1)
+            }
+        }
+    }, [examsPage])
+
+    const onDeleteItem = (arg) => {
+        console.log('onDelteItem: ', arg ,)
+        if (arg === 'all') {
+            setSelectedItems([])
+        } else {
+            setSelectedItems(selectedItems.filter(i => i !== arg))
+        }
+    }
+
     const Results = () => {
         const { fetching, fetched, data, errored, error } = results
 
-        if (fetching) {
+        if (true) {
             return (
-                <Grid item xs={12} align="center" style={{ height: "100%" }}>
+                <Grid item xs={12} align="center" style={{ minHeight: "100%", background: 'red' }}>
                     <CircularProgress />
-                    <Typography>Loading...</Typography>
+                    <Skeleton count={5}/>
                 </Grid>
             )
         }
@@ -104,6 +142,8 @@ const Exams = ({ searchRequest, clearFilters }) => {
                                             setSelectedItems([...selectedItems, id])
                                         }}
                                         selected={selectedItems.includes(item.id)}
+                                        onPreviewOpen={(img) => setPreviewIcon(img)}
+                                        onErrorDialog={id => setErrorOpen(id)}
                                     />
                                 </Grid>
                             ))}
@@ -114,8 +154,9 @@ const Exams = ({ searchRequest, clearFilters }) => {
 
         return null;
     }
-
-    console.log(filtered)
+     
+    if (menu == 1) return <Selected list={selectedItems} onBack={() => setMenu(0)} onDeleteItem={(id) => onDeleteItem(id)} />
+     
     return (
         <Grid container xs={12}>
             {!isMobile && <Grid item xs={1} className={classes.root} />}
@@ -129,7 +170,7 @@ const Exams = ({ searchRequest, clearFilters }) => {
                         </Grid>
                         {!isMobile &&
                             <Grid item xs={12} md={2}>
-                                <Test fullWidth variant={'contained'} xs={12}>Test</Test>
+                                <Test onClick={() => setMenu(1)} fullWidth variant={'contained'} xs={12}>Test</Test>
                             </Grid>}
                     </Grid>
                 </Box>
@@ -138,7 +179,7 @@ const Exams = ({ searchRequest, clearFilters }) => {
                     <Grid item md={3} xs={12}>
 
                         {!isMobile &&
-                            <Grid container xs={12} md={12} justify="space-between">
+                            <InlineSpaced>
                                 <Filtered>Filtered</Filtered>
                                 <IconButton onClick={() => {
                                     clearFilters();
@@ -146,7 +187,7 @@ const Exams = ({ searchRequest, clearFilters }) => {
                                 }}>
                                     <HighlightOffIcon />
                                 </IconButton>
-                            </Grid>}
+                            </InlineSpaced>}
 
                         {!isMobile ?
                             filters.map(f =>
@@ -190,6 +231,8 @@ const Exams = ({ searchRequest, clearFilters }) => {
             </Grid>
 
             {!isMobile && <Grid item xs={1} className={classes.root} />}
+            {previewIcon !== '' && <Common.PreviewDialog openPreview={previewIcon !== ''} onClose={() => setPreviewIcon('')} />}
+            {errorOpen !== '' && <Common.ErrorDialog open={errorOpen !== ''} onClose={() => setErrorOpen('')} />}
         </Grid >
     )
 }
@@ -197,11 +240,17 @@ const Exams = ({ searchRequest, clearFilters }) => {
 Exams.propTypes = {
     searchRequest: PropTypes.func,
     clearFilters: PropTypes.func,
+    openBottomSheet: PropTypes.func,
+    closeBottomSheet: PropTypes.func,
+    changeExamsPage: PropTypes.func,
 }
 
 export default connect(null, (dispatch) => {
     return {
         searchRequest: p => dispatch(searchRequest(p)),
         clearFilters: () => dispatch(clearFilters()),
+        openBottomSheet: (p) => dispatch(openBottomSheet(p)),
+        closeBottomSheet: () => dispatch(closeBottomSheet()),
+        changeExamsPage: p => dispatch(changeExamsPage(p)),
     }
 })(Exams)

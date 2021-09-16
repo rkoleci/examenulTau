@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+import { ListItem } from '@material-ui/core'
 
 export const ItemContainer = styled.div`
     margin-bottom: 10px;
@@ -33,6 +34,11 @@ export const Item = styled.p`
     -ms-user-select: none;
     user-select: none;
 `
+export const ListItemContainer = styled(ListItem)`
+    padding-top: 0;
+    padding-bottom: 0;
+`
+
 export const SeeLess = styled.p`
     color: #4A4A4A;
     cursor: pointer;
@@ -69,4 +75,8 @@ export const SeeMore = styled.p`
     font-family: "HelveticaNeue", "Helvetica Neue", sans-serif;
     font-size: 14px;
     margin: 0;
+`
+
+export const FullWidth = styled.div`
+    width: 100%;
 `

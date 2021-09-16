@@ -1,16 +1,15 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import {
     Grid,
     Card,
-    Typography,
     CardContent,
-    CardActionArea,
-    CardActions,
-    Button,
     IconButton
 } from '@material-ui/core'
 import AccessibleIcon from '@material-ui/icons/Accessible';
 import ImageIcon from '@material-ui/icons/Image';
+import AddIcon from '@material-ui/icons/Add';
+import DeleteIcon from '@material-ui/icons/Delete';
 import 'katex/dist/katex.min.css';
 import { InlineMath, BlockMath } from 'react-katex';
 
@@ -21,50 +20,57 @@ import {
     Index,
     AddButton,
     RemoveButton,
+    Image,
+    InlineSpaced,
 } from './styles'
+import difficultyEasy from '../../assets/difficultyEasy.svg'
+import difficultyMedium from '../../assets/difficultyMedium.svg'
+import difficultyHard from '../../assets/difficultyHard.svg'
+import difficultyVHard from '../../assets/difficultyVHard.svg'
 
-const ExamItem = ({ id, curriculum, body: { content }, selected, onSelect }) => {
+const ExamItem = ({ id, curriculum, body: { content }, selected, onSelect, onPreviewOpen, onErrorDialog }) => {
     return (
         <Grid key={id} container xs={12}>
             <Card>
                 <CardContent>
-                    <div style={styles.inlineSpaced}>
+                    <InlineSpaced   >
                         <Category>{curriculum}</Category>
-                        <ReportError>Error?</ReportError>
-                    </div>
+                        <ReportError onClick={() => onErrorDialog(id)}>Error?</ReportError>
+                    </InlineSpaced>
                     {/* <BlockMath
                         math={content}
                         errorColor={'#cc0000'}
                     /> */}
                     <Description>{content}</Description>
                 </CardContent>
-                <div style={styles.inlineSpaced}>
-                    <div style={styles.inlineSpaced}>
-                        <AccessibleIcon />
+                <InlineSpaced padding>
+                    <InlineSpaced   >
+                        <Image src={difficultyVHard} />
                         <Index>a 8-a</Index>
-                    </div>
-                    <div style={styles.inlineSpaced}>
-                        <IconButton aria-label="delete">
+                    </InlineSpaced>
+                    <InlineSpaced   >
+                        <IconButton aria-label="delete" onClick={() => onPreviewOpen('img')}>
                             <ImageIcon />
                         </IconButton>
                         {!selected ?
-                            <AddButton onClick={() => onSelect(id)} variant="contained">Add to the test</AddButton>
+                            <AddButton startIcon={<AddIcon />} onClick={() => onSelect(id)} variant="contained">ADD</AddButton>
                             :
-                            <RemoveButton onClick={() => onSelect(id)} variant="contained">Remove</RemoveButton>}
-                    </div>
-                </div>
+                            <RemoveButton startIcon={<DeleteIcon />} onClick={() => onSelect(id)} variant="contained">Remove</RemoveButton>}
+                    </InlineSpaced>
+                </InlineSpaced>
             </Card>
         </Grid>
     )
 }
 
-const styles = {
-    inlineSpaced: {
-        display: 'flex',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        padding: '0 10px 10px 10px'
-    }
+ExamItem.propTypes = {
+    id: PropTypes.string,
+    curriculum: PropTypes.string,
+    body: PropTypes.object,
+    selected: PropTypes.bool,
+    onSelect: PropTypes.func,
+    onPreviewOpen: PropTypes.func,
+    onErrorDialog: PropTypes.func,
 }
 
 export default ExamItem;

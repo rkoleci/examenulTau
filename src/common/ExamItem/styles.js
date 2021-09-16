@@ -57,3 +57,13 @@ export const RemoveButton = styled(Button)`
     place-content: center;
     text-transform: capitalize;
 `
+export const Image = styled.img`
+    margin-right: 10px;
+`
+
+export const InlineSpaced = styled.div`
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: ${props => props.padding ? '16px' : ''};
+`

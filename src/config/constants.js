@@ -1,3 +1,4 @@
+
 export const appName = 'ExamenalTau'
 
 export const apiKey = ''
@@ -37,3 +38,10 @@ export const examItems = {
     "size": 10,
     "start_index": 0
 }
+
+export const exerciseErrors = [
+    'Part of the statement of the exercise is missing.',
+    'An image does not look right.',
+    'An image is missing.',
+    'Something else is not working properly.'
+]

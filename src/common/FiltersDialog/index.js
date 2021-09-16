@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { IconButton, Dialog, Button } from '@material-ui/core'
 import HighlightOffIcon from '@material-ui/icons/HighlightOff';
@@ -28,6 +29,15 @@ const mapDispatchToProps = (dispatch) => {
     return {
         clearFilters: () => dispatch(clearFilters()),
     }
+}
+
+FiltersDialog.propTypes = {
+    open: PropTypes.bool,
+    children: PropTypes.object,
+    onClose: PropTypes.func,
+    clearFilters: PropTypes.func,
+    onClear: PropTypes.func,
+    onApply: PropTypes.func,
 }
 
 export default connect(null, mapDispatchToProps)(FiltersDialog)

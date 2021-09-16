@@ -47,8 +47,7 @@ const Paging = ({ onPageChange }) => {
 }
 
 Paging.propTypes = {
-    onNext: PropTypes.func,
-    onPrev: PropTypes.func,
+    onPageChange: PropTypes.func,
 }
 
 export default Paging;

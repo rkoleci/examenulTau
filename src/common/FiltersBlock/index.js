@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
+import PropTypes from 'prop-types'
 import { makeStyles } from '@material-ui/core/styles';
-import {
-    Typography,
-    Checkbox,
-    Grid,
+import { 
+    Checkbox, 
     Accordion,
     AccordionSummary,
     AccordionDetails,
+    ListItemText,
+    ListItemIcon
 } from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { useSelector } from 'react-redux'
@@ -14,26 +15,21 @@ import { useSelector } from 'react-redux'
 import {
     ItemContainer,
     Category,
+    ListItemContainer,
     Item,
     SeeLess,
     SeeMoreContainer,
     SeeMore,
     Another,
-    Chapters,
-    ViewLess
+    Chapters, 
+    FullWidth
 } from './styles'
+import difficultyEasy from '../../assets/difficultyEasy.svg'
+import difficultyMedium from '../../assets/difficultyMedium.svg'
+import difficultyHard from '../../assets/difficultyHard.svg'
+import difficultyVHard from '../../assets/difficultyVHard.svg'
 
 const LIST_SIZE = 4
-
-const useStyles = makeStyles((theme) => ({
-    root: {
-        width: '100%',
-    },
-    heading: {
-        fontSize: theme.typography.pxToRem(15),
-        fontWeight: theme.typography.fontWeightRegular,
-    },
-}));
 
 const FiltersBlock = ({ title, type, filters, onFilterChanged, filtered }) => {
     const [checked, setChecked] = useState([]);
@@ -66,76 +62,39 @@ const FiltersBlock = ({ title, type, filters, onFilterChanged, filtered }) => {
                     <Category>{title}</Category>
                 </AccordionSummary>
                 <AccordionDetails>
-                    <div>
+                    <FullWidth style={{ width: '100%'}}>
                         {filters.map((f, x) => {
                             if (!expanded && x > LIST_SIZE) return null
 
                             return (
-                                <div
-                                    onClick={() => onCheckChanged(f)}
-                                    style={{
-                                        display: 'flex',
-                                        justifyContent: 'flex-start',
-                                        alignItems: 'center',
-                                        marginBottom: -20,
-                                    }}
-                                >
-                                    <Checkbox
-                                        style={{
-                                            color: "#006C33",
-                                        }}
-                                        checked={checked.includes(f)}
-                                        onChange={() => onCheckChanged(f)}
-                                    />
-                                    <Item>{f}</Item>
-                                </div>
+                                <ListItemContainer role={undefined} dense button onClick={() => onCheckChanged(f)}  style={{ paddingTop: 0, paddingBottom: 0 }}>
+                                    <ListItemIcon> 
+                                        <Checkbox
+                                            edge="start"
+                                            checked={checked.includes(f)}
+                                            onChange={() => onCheckChanged(f)}
+                                            tabIndex={-1}
+                                            disableRipple
+                                            color={'primary'}
+                                        />
+                                    </ListItemIcon>
+                                    <ListItemText id={f} primary={f} />
+                                </ListItemContainer>
                             )
                         })}
-                    </div>
+                    </FullWidth>
                 </AccordionDetails>
             </Accordion>
         </ItemContainer>
     )
+}
 
-    return (
-        <ItemContainer>
-            <Category>{title}:</Category>
-            {filters.map((f, x) => {
-                if (!expanded && x > LIST_SIZE) return null
-
-                return (
-                    <div
-                        onClick={() => onCheckChanged(f)}
-                        style={{
-                            display: 'flex',
-                            justifyContent: 'flex-start',
-                            alignItems: 'center',
-                            marginBottom: -20,
-                        }}
-                    >
-                        <Checkbox
-                            style={{
-                                color: "#006C33",
-                            }}
-                            checked={checked.includes(f)}
-                            onChange={() => onCheckChanged(f)}
-                        />
-                        <Item>{f}</Item>
-                    </div>
-                )
-            })}
-
-            {filters.length > LIST_SIZE && expanded && <SeeLess onClick={() => setExpanded(!expanded)}>{`See less`}</SeeLess>}
-            {filters.length > LIST_SIZE && !expanded &&
-                <SeeMoreContainer onClick={() => setExpanded(!expanded)}>
-                    <Another>Another </Another>
-                    <Chapters>{` ${filters.length - LIST_SIZE} chapters. `}</Chapters>
-                    <SeeMore>View more</SeeMore>
-                </SeeMoreContainer>
-            }
-
-        </ItemContainer>
-    )
+FiltersBlock.propTypes = {
+    title: PropTypes.string,
+    type: PropTypes.string,
+    filters: PropTypes.object,
+    onFilterChanged: PropTypes.func,
+    filtered: PropTypes.array,
 }
 
 export default FiltersBlock;

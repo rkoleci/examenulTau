@@ -16,6 +16,7 @@ import {
     Divider,
     Grid,
 } from '@material-ui/core'
+import HomeIcon from '@material-ui/icons/Home';
 import InboxIcon from '@material-ui/icons/MoveToInbox';
 import MailIcon from '@material-ui/icons/Mail';
 import MenuIcon from '@material-ui/icons/Menu'
@@ -51,6 +52,12 @@ export default function ButtonAppBar() {
         setOpen(open);
     };
 
+    const getIcon = (route) => {
+        if (route == 'Home') return <HomeIcon />
+
+        return <MailIcon />
+    }
+
     return (
         <div className={classes.root}>
             <AppBar position="static">
@@ -85,7 +92,7 @@ export default function ButtonAppBar() {
                                     color: '#000000DE'
                                 }}>
                                     <ListItem button key={text}>
-                                        <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
+                                        <ListItemIcon>{getIcon(text)}</ListItemIcon>
                                         <ListItemText primary={text} />
                                     </ListItem>
                                 </Link>
