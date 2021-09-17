@@ -13,11 +13,11 @@ import {
 } from '@material-ui/core'
 import HighlightOffIcon from '@material-ui/icons/HighlightOff';
 import FilterListIcon from '@material-ui/icons/FilterList';
-import Skeleton from 'react-loading-skeleton';
 
 import { Title, Test, TotalLength, Filtered, Inline } from './styles'
 
 import Common from '../../common'
+import LoadingItem from './LoadingItem'
 import { searchRequest, clearFilters, openBottomSheet, closeBottomSheet, changeExamsPage } from '../../core/actions/exams'
 import { filters } from '../../config/constants'
 import Selected from './Selected'
@@ -81,7 +81,7 @@ const Exams = ({ searchRequest, clearFilters, openBottomSheet, closeBottomSheet,
         } else {
             openBottomSheet({ length: selectedItems.length })
         }
-        
+
     }, [selectedItems])
 
     useEffect(() => {
@@ -97,7 +97,7 @@ const Exams = ({ searchRequest, clearFilters, openBottomSheet, closeBottomSheet,
     }, [examsPage])
 
     const onDeleteItem = (arg) => {
-        console.log('onDelteItem: ', arg ,)
+        console.log('onDelteItem: ', arg,)
         if (arg === 'all') {
             setSelectedItems([])
         } else {
@@ -110,9 +110,17 @@ const Exams = ({ searchRequest, clearFilters, openBottomSheet, closeBottomSheet,
 
         if (fetching) {
             return (
-                <Grid item xs={12} align="center" style={{ minHeight: "100%", background: 'red' }}>
-                    <CircularProgress />
-                    <Skeleton count={5}/>
+                <Grid container xs={12} align="center" spacing={!isMobile && 4}>
+                    {[1, 2, 3, 4].map(i => (
+                        <>
+                            <Grid item md={6} xs={12}>
+                                <LoadingItem />
+                            </Grid>
+                            <Grid item md={6} xs={12}>
+                                <LoadingItem />
+                            </Grid>
+                        </>
+                    ))}
                 </Grid>
             )
         }
@@ -154,9 +162,9 @@ const Exams = ({ searchRequest, clearFilters, openBottomSheet, closeBottomSheet,
 
         return null;
     }
-     
+
     if (menu == 1) return <Selected list={selectedItems} onBack={() => setMenu(0)} onDeleteItem={(id) => onDeleteItem(id)} />
-     
+
     return (
         <Grid container xs={12}>
             {!isMobile && <Grid item xs={1} className={classes.root} />}
