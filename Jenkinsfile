@@ -36,6 +36,7 @@ pipeline {
         branch 'master'
       }
       steps {
+        sh 'npm install'
         sh 'npm run build'
       }
     }
@@ -45,20 +46,21 @@ pipeline {
         branch 'develop'
       }
       steps {
+        sh 'npm install'
         sh 'npm run build'
       }
     }
 
-    stage('Deploy') {
-      when {
-        branch 'master'
-      }
+    // stage('Deploy') {
+    //   when {
+    //     branch 'master'
+    //   }
     //    steps {
     //    sshagent(credentials: ["${SSHKEYINES}"]) {
     //     sh '/usr/bin/rsync -av $WORKSPACE/public/ -e "ssh -p 22209 -o StrictHostKeyChecking=no" ${SSH_USERLOGIN}@${PROD_ENV}:/data/microservices/examenultau/'
     //     }
     //   }
-    }
+    // }
 
     stage('Stg-Deploy') {
       when {
