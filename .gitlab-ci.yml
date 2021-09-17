@@ -14,11 +14,11 @@ build:
   only: 
     - master 
 
-artifacts:
-  expire_in: 1 hour
-  paths:
-    - build
-    - node_modules/
+# artifacts:
+#   expire_in: 1 hour
+#   paths:
+#     - build
+#     - node_modules/
 
 test:
   stage: test
