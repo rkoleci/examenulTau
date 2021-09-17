@@ -11,14 +11,14 @@ build:
     - npm install
     - npm build
     - echo "Build successfully!"
-   only: 
-     - master 
+  only: 
+    - master 
 
-  artifacts:
-    expire_in: 1 hour
-    paths:
-      - build
-      - node_modules/
+artifacts:
+  expire_in: 1 hour
+  paths:
+    - build
+    - node_modules/
 
 test:
   stage: test
@@ -27,18 +27,21 @@ test:
     - echo "Testing App"
     - CI=true npm test
     - echo "Test successfully!"
-   only: 
-     - develop
+  only: 
+    - develop
 
 docker-build:
   stage: docker-build
   image: docker:latest
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "master"'
+
   services: 
     - name: docker:19.03.8-dind
   before_script:
-    - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
+    - docker login -u "$DOCKER_REGISTRY_USER" -p "$DOCKER_REGISTRY_PASS" $DOCKER_REGISTRY_URL
   script:
     - docker build --pull -t "$CI_REGISTRY_IMAGE" .
-    - docker push "$CI_REGISTRY_IMAGE"
-   only: 
-     - master
+    - docker push "$DOCKER_REGISTRY_URL/intxt/$CI_REGISTRY_IMAGE"
+  only: 
+    - master
