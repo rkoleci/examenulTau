@@ -192,6 +192,10 @@ export function sendToClassroom(state = {
       return {
         ...state, creating: false, created: false, errored: true, error: action.payload,
       }
+    case types.CLEAR_NEW_CLASSROOM_TEST:
+      return {
+        ...state, creating: false, created: false, errored: false, error: null,
+      }
     default:
       return state;
   }

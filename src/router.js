@@ -21,6 +21,12 @@ const theme = createTheme({
         secondary: {
             main: '#FF7901'
         },
+        accent: {
+            main: '#414142'
+        },
+        error: {
+            main: '#f44336'
+        }
     }
 });
 
@@ -35,7 +41,7 @@ const AppRouter = () => {
                     <HeaderMobile />}
                 <Switch>
                     <Route component={Auth} exact path="/auth" />
-                    <Route component={Exams} exact path="/exams" />
+                    <Route component={Exams} exact path="/exercises" />
                 </Switch>
                 <Common.BottomSheet />
             </Router>

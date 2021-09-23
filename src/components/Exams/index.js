@@ -5,14 +5,13 @@ import { connect, useSelector } from 'react-redux'
 import {
     Grid,
     Box,
-    Typography,
-    Button,
-    CircularProgress,
+    Button, 
     IconButton,
     useMediaQuery,
 } from '@material-ui/core'
 import HighlightOffIcon from '@material-ui/icons/HighlightOff';
 import FilterListIcon from '@material-ui/icons/FilterList';
+import { useTranslation } from 'react-i18next';
 
 import { Title, Test, TotalLength, Filtered, Inline } from './styles'
 
@@ -42,9 +41,10 @@ const Exams = ({ searchRequest, clearFilters, openBottomSheet, closeBottomSheet,
     const [previewIcon, setPreviewIcon] = useState('')
     const [errorOpen, setErrorOpen] = useState('')
     const [menu, setMenu] = useState(0)
+    const { t } = useTranslation()
 
-    const results = useSelector(state => state.searchRequest)
-    const examsPage = useSelector(state => state.examsPage)
+    const results = useSelector(state => state.EXAMS.searchRequest)
+    const examsPage = useSelector(state => state.EXAMS.examsPage)
 
     const isMobile = useMediaQuery('(max-width:450px)');
 
@@ -111,7 +111,7 @@ const Exams = ({ searchRequest, clearFilters, openBottomSheet, closeBottomSheet,
         if (fetching) {
             return (
                 <Grid container xs={12} align="center" spacing={!isMobile && 4}>
-                    {[1, 2, 3, 4].map(i => (
+                    {Array.from(Array(4).keys()).map(i => (
                         <>
                             <Grid item md={6} xs={12}>
                                 <LoadingItem />
@@ -129,7 +129,7 @@ const Exams = ({ searchRequest, clearFilters, openBottomSheet, closeBottomSheet,
             return (
                 <Grid item xs={12}>
                     <Inline>
-                        <TotalLength>{total ? `${total} exercies displayed according to criteria` : ''}</TotalLength>
+                        <TotalLength>{total ? `${total} ${t('exercises total')}` : ''}</TotalLength>
                         {isMobile && (
                             <IconButton onClick={() => setFiltersModalOpen(true)}>
                                 <FilterListIcon />
@@ -174,21 +174,21 @@ const Exams = ({ searchRequest, clearFilters, openBottomSheet, closeBottomSheet,
                 <Box pt={!isMobile ? 8 : 2} width={1}>
                     <Grid container md={12} xs={12} justifyContent={'space-between'} spacing={!isMobile && 8}>
                         <Grid item xs={12} md={10}>
-                            <Title>Create a Test</Title>
+                            <Title>{t('create a test')}</Title>
                         </Grid>
                         {!isMobile &&
                             <Grid item xs={12} md={2}>
-                                <Test onClick={() => setMenu(1)} fullWidth variant={'contained'} xs={12}>Test</Test>
+                                <Test onClick={() => setMenu(1)} fullWidth variant={'contained'} xs={12}>{t('test')}</Test>
                             </Grid>}
                     </Grid>
                 </Box>
 
                 <Grid container xs={12} justify={'center'} spacing={!isMobile && 4}>
-                    <Grid item md={3} xs={12}>
+                    <Grid item md={4} xs={12}>
 
                         {!isMobile &&
                             <InlineSpaced>
-                                <Filtered>Filtered</Filtered>
+                                <Filtered>{t('filtered')}</Filtered>
                                 <IconButton onClick={() => {
                                     clearFilters();
                                     setFiltered({})
@@ -220,12 +220,12 @@ const Exams = ({ searchRequest, clearFilters, openBottomSheet, closeBottomSheet,
                             </Common.FiltersDialog>}
 
                     </Grid>
-                    <Grid item md={9} xs={12}>
+                    <Grid item md={8} xs={12}>
                         <Results />
                         <Box pt={3} width={1}>
                             {isMobile &&
                                 <Grid item xs={12} md={2}>
-                                    <Button fullWidth variant={'contained'} xs={12} color={'primary'}>Test</Button>
+                                    <Button fullWidth variant={'contained'} xs={12} color={'primary'}>{t('test')}</Button>
                                 </Grid>}
                             <Grid item xs={12} md={12}>
                                 <Common.Pagination

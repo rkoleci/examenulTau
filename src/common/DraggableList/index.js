@@ -2,14 +2,12 @@ import React, { Component } from "react";
 import PropTypes from 'prop-types'
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 
-// fake data generator
-const getItems = list =>
+const getDraggableItems = list =>
   Array.from({ length: list.length }, (v, k) => k).map(k => ({
     id: `item-${k}`,
     content: list[k]
   }));
 
-// a little function to help us with reordering the result
 const reorder = (list, startIndex, endIndex) => {
   const result = Array.from(list);
   const [removed] = result.splice(startIndex, 1);
@@ -21,15 +19,9 @@ const reorder = (list, startIndex, endIndex) => {
 const grid = 8;
 
 const getItemStyle = (isDragging, draggableStyle) => ({
-  // some basic styles to make the items look a bit nicer
   userSelect: "none",
-   
   margin: `0 0 ${grid}px 0`,
-
-  // change background colour if dragging
   background: isDragging ? "white" : "white",
-
-  // styles we need to apply on draggables
   ...draggableStyle
 });
 
@@ -42,19 +34,18 @@ class DraggableList extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      items: getItems(this.props.list)
+      items: getDraggableItems(this.props.list)
     };
     this.onDragEnd = this.onDragEnd.bind(this);
   }
 
   UNSAFE_componentWillReceiveProps(nextProps) {
     this.setState({
-      items: getItems(nextProps.list)
+      items: getDraggableItems(nextProps.list)
     })
   }
 
   onDragEnd(result) {
-    // dropped outside the list
     if (!result.destination) {
       return;
     }
@@ -92,7 +83,6 @@ class DraggableList extends Component {
                         provided.draggableProps.style
                       )}
                     >
-                      {/* {this.props.renderItem} */}
                       {React.cloneElement(this.props.renderItem,{ customProps: { id: item.content, onDeleteItem: this.props.onDeleteItem } })}
                     </div>
                   )}

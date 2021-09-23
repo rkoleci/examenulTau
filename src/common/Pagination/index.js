@@ -12,7 +12,7 @@ const PAGE_RESULTS_LIMIT = 10;
 const Paging = ({ onPageChange }) => {
     const [currentPage, setCurrentPage] = useState(1);
     const [max, setMax] = useState(0)
-    const results = useSelector(state => state.searchRequest)
+    const results = useSelector(state => state.EXAMS.searchRequest)
 
     useEffect(() => {
         const { data, fetched } = results;

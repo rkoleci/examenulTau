@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types'
 import { withStyles } from '@material-ui/core/styles';
+import { useTranslation } from 'react-i18next'
 import {
     IconButton,
     Dialog,
@@ -9,6 +10,7 @@ import {
 } from '@material-ui/core'
 import MuiDialogTitle from '@material-ui/core/DialogTitle'
 import CloseIcon from '@material-ui/icons/Close';
+
 import { Image } from './styles'
 import T1_1 from '../../assets/T1-1.png'
 
@@ -40,11 +42,13 @@ const DialogTitle = withStyles(styles)((props) => {
 });
 
 const PreviewDialog = ({ openPreview, onClose }) => {
+    const { t } = useTranslation()
+
     return (
         <>
             <Dialog onClose={() => onClose()} aria-labelledby="customized-dialog-title" open={openPreview}>
                 <DialogTitle id="customized-dialog-title" onClose={() => onClose()}>
-                    Preview
+                    {t('preview')}
                 </DialogTitle>
                 <DialogContent dividers>
                     <Image src={T1_1} />

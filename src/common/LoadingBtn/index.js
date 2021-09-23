@@ -2,14 +2,18 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { CircularProgress } from '@material-ui/core'
 
-import { Container } from './styles'
+import { Container, Error } from './styles'
 
-const LoadingBtn = ({ loading, children }) => {
+const LoadingBtn = ({ loading, children, errorLabel }) => {
     return (
         <Container>
             {loading ?
                 <CircularProgress color={'primary'} />
-                : children}
+                :
+                <Container>
+                    {children}
+                    {errorLabel && <Error>{errorLabel}</Error>}
+                </Container>}
         </Container>
     )
 }

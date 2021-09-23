@@ -1,8 +1,7 @@
 import axios from 'axios'
 
-import { baseUrl } from '../../config/addresses'
+import endpoints, { baseUrl } from '../../config/addresses'
 import types from '../../config/types'
-import { examItems } from '../../config/constants'
 
 export const searchRequest = (params) => {
   return (dispatch) => {
@@ -10,14 +9,14 @@ export const searchRequest = (params) => {
       type: types.SEARCH_REQUEST_START
     });
     axios({
-      method: 'PUT',
-      url: `https://jsonplaceholder.typicode.com/todos/1`, // set real address
+      method: 'GET',
+      url: endpoints.search_request,
       data: params
-    }).then((response) => {
+    }).then((response) => { 
       dispatch({
         type: types.SEARCH_REQUEST_SUCCESS,
         payload: {
-          data: examItems,
+          data: response.data
         },
       });
     }).catch((error) => {
@@ -75,7 +74,7 @@ export const fetchAssesmentItem = (params) => {
     });
     axios({
       method: 'GET',
-      url: `${baseUrl}repository/lms/items/${params.id}`,
+      url: `${endpoints.assessment_item}/${params.id}`,
     }).then((response) => {
       dispatch({
         type: types.FETCH_ASSESMENT_ITEM_SUCCESS,
@@ -101,7 +100,7 @@ export const createNewAssesmentTest = (params) => {
     });
     axios({
       method: 'POST',
-      url: `${baseUrl}assesment-delivery/tests`,
+      url: `${endpoints.assesment_delivery_tests}`,
     }).then((response) => {
       dispatch({
         type: types.CREATE_NEW_ASSESMENT_TEST_SUCCESS,
@@ -127,7 +126,7 @@ export const fetchPreviousTests = (params) => {
     });
     axios({
       method: 'GET',
-      url: `${baseUrl}assesment-delivery/tests`,
+      url: `${baseUrl}`,
     }).then((response) => {
       dispatch({
         type: types.FETCH_PREVIOUS_TESTS_SUCCESS,
@@ -153,7 +152,7 @@ export const fetchSingleTest = (params) => {
     });
     axios({
       method: 'GET',
-      url: `${baseUrl}assesment-delivery/test/${params.id}`,
+      url: `${endpoints.assesment_delivery_test}/${params.id}`,
     }).then((response) => {
       dispatch({
         type: types.FETCH_SINGLE_TEST_SUCCESS,
@@ -179,7 +178,7 @@ export const updateTest = (params) => {
     });
     axios({
       method: 'PUT',
-      url: `${baseUrl}assesment-delivery/test/${params.id}`,
+      url: `${endpoints.assesment_delivery_test}/${params.id}`,
     }).then((response) => {
       dispatch({
         type: types.UPDATE_TEST_SUCCESS,
@@ -204,8 +203,9 @@ export const sendToClassRoom = (params) => {
       type: types.CREATE_NEW_CLASSROOM_TEST_START
     });
     axios({
-      method: 'PUT',
-      url: `${baseUrl}app/et/classroom/${params.classRoomId}/test_assignment`,
+      method: 'POST',
+      url: `${endpoints.classroom_test}`,
+      data: params
     }).then((response) => {
       dispatch({
         type: types.CREATE_NEW_CLASSROOM_TEST_SUCCESS,
@@ -221,5 +221,13 @@ export const sendToClassRoom = (params) => {
         },
       })
     });
+  }
+}
+
+export const clearSentToClassRoom = () => {
+  return (dispatch) => {
+    dispatch({
+      type: types.CLEAR_NEW_CLASSROOM_TEST,
+    })
   }
 }

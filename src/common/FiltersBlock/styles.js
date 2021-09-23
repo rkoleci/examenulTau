@@ -19,6 +19,20 @@ export const Category = styled.p`
         text-align: center;
     }
 `
+export const SubCategory = styled.p`
+    color: #4A4A4A;
+    font-family: "HelveticaNeue", "Helvetica Neue", sans-serif;
+    font-size: 16px; 
+    letter-spacing: 0;
+    line-height: 24px;
+    margin: 0;
+    text-align: left;
+
+    @media screen and (max-width: 450px) {
+        text-align: center;
+    }
+`
+
 export const Item = styled.p`
     font-family: "HelveticaNeue", "Helvetica Neue", sans-serif;
     display: block;
@@ -79,4 +93,10 @@ export const SeeMore = styled.p`
 
 export const FullWidth = styled.div`
     width: 100%;
+`
+export const Inline = styled.div`
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    margin: 0;
 `

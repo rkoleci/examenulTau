@@ -13,9 +13,10 @@ import {
     ListItemText
 } from '@material-ui/core'
 import SearchIcon from '@material-ui/icons/Search';
+import { useTranslation } from 'react-i18next';
 
 import { AvatarIcon, SecondaryText } from './styles'
-import { appName, menuList } from '../../config/constants'
+import { useTranslatedStrings } from '../../config/hooks'
 
 const useStyles = makeStyles((theme) => ({
     grow: {
@@ -112,9 +113,12 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Header = () => {
+    const { t } = useTranslation();
     const classes = useStyles();
     const [anchorEl, setAnchorEl] = React.useState(null);
     const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
+
+    const menuList = useTranslatedStrings('menuList')
 
     const isMenuOpen = Boolean(anchorEl);
     const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
@@ -142,9 +146,7 @@ const Header = () => {
         <div className={classes.grow}>
             <AppBar position="static">
                 <Toolbar>
-                    <Typography className={classes.title} variant="h6" noWrap>
-                        {appName}
-                    </Typography>
+                    <image src={'../../assets/logo.png'} />
 
                     <div className={classes.grow} />
 
@@ -198,7 +200,7 @@ const Header = () => {
                         <ListItem>
                             <ListItemText 
                                 primary={'Rei Koleci'} 
-                                secondary={<SecondaryText>Profesor</SecondaryText>} 
+                                secondary={<SecondaryText>{t('professor')}</SecondaryText>} 
                             />
                             <AvatarIcon>RK</AvatarIcon>
                         </ListItem>

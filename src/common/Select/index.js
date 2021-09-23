@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import PropTypes from 'prop-types'
 import { makeStyles } from '@material-ui/core/styles';
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
@@ -17,32 +18,40 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const SimpleSelect = () => {
+const SimpleSelect = ({ label, values, onChange }) => {
   const classes = useStyles();
-  const [age, setAge] = React.useState('');
+  const [selected, setSelected] = useState('');
+
+  useEffect(() => {
+    onChange(selected)
+  }, [selected])
 
   const handleChange = (event) => {
-    setAge(event.target.value);
+    setSelected(event.target.value);
   };
 
   return (
     <div style={{width: '100%'}}>
       <FormControl className={classes.formControl}>
-        <InputLabel id="demo-simple-select-label">Age</InputLabel>
+        <InputLabel id="demo-simple-select-label">{label}</InputLabel>
         <Select
           labelId="demo-simple-select-label"
           id="demo-simple-select"
-          value={age}
+          value={selected}
           onChange={handleChange}
           fullWidth
         >
-          <MenuItem value={10}>Ten</MenuItem>
-          <MenuItem value={20}>Twenty</MenuItem>
-          <MenuItem value={30}>Thirty</MenuItem>
+          {values.map(v => <MenuItem value={v}>{v}</MenuItem>)}
         </Select>
       </FormControl>
     </div>
   );
+}
+
+SimpleSelect.propTypes = {
+  label: PropTypes.string,
+  values: PropTypes.array,
+  onChange: PropTypes.func,
 }
 
 export default SimpleSelect

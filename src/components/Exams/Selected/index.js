@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { makeStyles } from '@material-ui/core/styles';
+import { useTranslation } from 'react-i18next'
 import {
     Grid,
     Box,
@@ -38,6 +39,7 @@ const useStyles = makeStyles((theme) => ({
 const Selected = ({ list, changeExamsPage, onDeleteItem, closeBottomSheet }) => {
     const classes = useStyles()
     const [sendModal, setSendModal] = useState(false)
+    const { t } = useTranslation()
 
     const isMobile = useMediaQuery('(max-width:450px)');
 
@@ -51,13 +53,13 @@ const Selected = ({ list, changeExamsPage, onDeleteItem, closeBottomSheet }) => 
 
             <Grid container xs={12} md={8} className={classes.root} >
                 <Box pt={!isMobile ? 7 : 2} width={1}>
-                    <Title>Exercies</Title>
+                    <Title>{t('exercises')}</Title>
                     <Header>
                         <InlineLeft>
                             <IconButton onClick={() => changeExamsPage({ menu: 0 })}>
                                 <ArrowBackIcon />
                             </IconButton>
-                            <Typography>Back</Typography>
+                            <Typography>{t('back')}</Typography>
                         </InlineLeft>
                         <IconButton onClick={() => onDeleteItem('all')}>
                             <DeleteIcon fontSize="large" />
@@ -71,7 +73,7 @@ const Selected = ({ list, changeExamsPage, onDeleteItem, closeBottomSheet }) => 
                             startIcon={<AddIcon fontSize="large" />}
                             onClick={() => changeExamsPage({ menu: 0 })}
                         >
-                            ADD EXERCISE
+                            {t('add exercises')}
                         </AddButton>
                     </Dashed>
                     <SendButton
@@ -82,7 +84,7 @@ const Selected = ({ list, changeExamsPage, onDeleteItem, closeBottomSheet }) => 
                         onClick={() => setSendModal(true)}
                         disabled={list.length == 0}
                     >
-                        Send the test
+                        {t('send test')}
                     </SendButton>
                 </Box>
             </Grid>

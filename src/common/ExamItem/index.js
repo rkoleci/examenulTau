@@ -10,8 +10,8 @@ import AccessibleIcon from '@material-ui/icons/Accessible';
 import ImageIcon from '@material-ui/icons/Image';
 import AddIcon from '@material-ui/icons/Add';
 import DeleteIcon from '@material-ui/icons/Delete';
-import 'katex/dist/katex.min.css';
-import { InlineMath, BlockMath } from 'react-katex';
+import { MathJax, MathJaxContext } from "better-react-mathjax";
+import { useTranslation } from 'react-i18next';
 
 import {
     Category,
@@ -27,8 +27,11 @@ import difficultyEasy from '../../assets/difficultyEasy.svg'
 import difficultyMedium from '../../assets/difficultyMedium.svg'
 import difficultyHard from '../../assets/difficultyHard.svg'
 import difficultyVHard from '../../assets/difficultyVHard.svg'
+import { mathJaxConfig } from '../../config/constants'
 
 const ExamItem = ({ id, curriculum, body: { content }, selected, onSelect, onPreviewOpen, onErrorDialog }) => {
+    const { t, i18n } = useTranslation();
+    
     return (
         <Grid key={id} container xs={12}>
             <Card>
@@ -36,12 +39,14 @@ const ExamItem = ({ id, curriculum, body: { content }, selected, onSelect, onPre
                     <InlineSpaced   >
                         <Category>{curriculum}</Category>
                         <ReportError onClick={() => onErrorDialog(id)}>Error?</ReportError>
-                    </InlineSpaced>
-                    {/* <BlockMath
-                        math={content}
-                        errorColor={'#cc0000'}
-                    /> */}
-                    <Description>{content}</Description>
+                    </InlineSpaced> 
+                    <Description>
+                        <MathJaxContext config={mathJaxConfig} version={3}>
+                            <MathJax dynamic inline>
+                                {content}
+                            </MathJax>
+                        </MathJaxContext>
+                    </Description>
                 </CardContent>
                 <InlineSpaced padding>
                     <InlineSpaced   >

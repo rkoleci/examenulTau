@@ -1,0 +1,52 @@
+{   
+    "menu": {
+        "app_name": "ExamenulTau",
+        "home": "Home",
+        "classes": "Classes",
+        "exercises": "Exercises",
+        "matter": "Matter",
+        "memorator": "Memorator",
+        "your opinion": "Your opinion",
+        "login": "Login",
+        "log_out": "Log Out"
+    },
+    "search": "search",
+    "professor": "Professor",
+    "create a test": "Create a Test",
+    "filtered": "Filtered",
+    "test": "Test",
+    "exercises total": "exercises displayed according to criteria",
+    "exercises added": "exercises added",
+    "create test": "Create the Test",
+    "exercises": "Exercises",
+    "back": "Back",
+    "error": "Error",
+    "add": "add",
+    "remove": "remove",
+    "next": "next",
+    "prev": "prev",
+    "error_dialog": {
+        "title": "What error did you find?",
+        "subtitle": "We are constantly adding new exercises, and less than 1% contain error. We publish weekly fixed updates.",
+        "option1": "Part of the statement of the exercise is missing.",
+        "option2": "An image does not look right",
+        "option3": "An image is missing.",
+        "option4": "Something else is not working properly.",
+        "send": "Send",
+        "reported": "Error reported!",
+        "finish": "Finish"
+    },
+    "preview": "Preview",
+    "add exercises": "add exercise",
+    "send test": "Send the test",
+    "send_dialog": {
+        "test name": "Test name",
+        "test description": "Test description",
+        "emmpty": "Empty",
+        "sent": "Test sent",
+        "finish": "Finish",
+        "validation_error": "Fill in all fields!",
+        "server_error": "Something went wrong!"
+    }
+
+  }

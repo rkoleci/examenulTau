@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom'
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
+import { useTranslation } from 'react-i18next';
 import {
     AppBar,
     Toolbar,
@@ -21,9 +22,9 @@ import InboxIcon from '@material-ui/icons/MoveToInbox';
 import MailIcon from '@material-ui/icons/Mail';
 import MenuIcon from '@material-ui/icons/Menu'
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+import { useTranslatedStrings } from '../../config/hooks'
 
 import { AvatarIcon } from './styles'
-import { appName, menuList } from '../../config/constants'
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -45,8 +46,10 @@ const useStyles = makeStyles((theme) => ({
 
 export default function ButtonAppBar() {
     const classes = useStyles();
+    const [open, setOpen] = useState(false);
+    const { t } = useTranslation();
 
-    const [open, setOpen] = React.useState(false);
+    const menuList = useTranslatedStrings('menuList')
 
     const toggleDrawer = (open) => {
         setOpen(open);
@@ -66,9 +69,9 @@ export default function ButtonAppBar() {
                         <MenuIcon />
                     </IconButton>
                     <Typography variant="h6" className={classes.title}>
-                        {appName}
+                        {t('menu.app_name')}
                     </Typography>
-                    <Button color="inherit">Login</Button>
+                    <Button color="inherit">{t('menu.login')}</Button>
                 </Toolbar>
 
                 <Drawer anchor={'left'} open={open} onClose={() => toggleDrawer(false)}>
@@ -103,7 +106,7 @@ export default function ButtonAppBar() {
                             }}>
                                 <ListItem button key={'log out'}>
                                     <ListItemIcon><ExitToAppIcon /></ListItemIcon>
-                                    <ListItemText primary={'Log out'} />
+                                    <ListItemText primary={t('menu.log_out')} />
                                 </ListItem>
                             </Link>
 
