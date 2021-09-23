@@ -78,7 +78,7 @@ const SendTestModal = ({ open, onClose, onFinish, classes, API }) => {
 
     useEffect(() => {
         const { created, error, errored } = sendToClass
-        
+
         if (created) setSuccess(true)
         if (!error) setError('')
         if (error) setError(t('send_dialog.server_error'))
