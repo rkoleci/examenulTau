@@ -5,7 +5,7 @@ import { connect, useSelector } from 'react-redux'
 import {
     Grid,
     Box,
-    Button, 
+    Button,
     IconButton,
     useMediaQuery,
 } from '@material-ui/core'
@@ -13,14 +13,26 @@ import HighlightOffIcon from '@material-ui/icons/HighlightOff';
 import FilterListIcon from '@material-ui/icons/FilterList';
 import { useTranslation } from 'react-i18next';
 
-import { Title, Test, TotalLength, Filtered, Inline } from './styles'
+import {
+    Title,
+    Test,
+    TotalLength,
+    Filtered,
+    Inline,
+    FullWidth
+} from './styles'
 
-import Common from '../../common'
+import Common from 'common'
 import LoadingItem from './LoadingItem'
-import { searchRequest, clearFilters, openBottomSheet, closeBottomSheet, changeExamsPage } from '../../core/actions/exams'
-import { filters } from '../../config/constants'
+import {
+    searchRequest,
+    clearFilters,
+    openBottomSheet,
+    closeBottomSheet,
+} from 'core/actions/exams'
+import { filters } from 'config/constants'
 import Selected from './Selected'
-import { InlineSpaced } from '../../common/ExamItem/styles';
+import { InlineSpaced } from 'common/ExamItem/styles';
 
 const PAGE_RESULTS_LIMIT = 10;
 
@@ -31,7 +43,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const Exams = ({ searchRequest, clearFilters, openBottomSheet, closeBottomSheet, changeExamsPage }) => {
+const Exams = ({ API }) => {
     const classes = useStyles();
     const [total, setTotal] = useState('')
     const [current, setCurrent] = useState(0)
@@ -49,7 +61,7 @@ const Exams = ({ searchRequest, clearFilters, openBottomSheet, closeBottomSheet,
     const isMobile = useMediaQuery('(max-width:450px)');
 
     useEffect(() => {
-        searchRequest({
+        API.searchRequest({
             "enabled": true,
             "curriculum": "MAT",
             "grade": 5,
@@ -77,9 +89,9 @@ const Exams = ({ searchRequest, clearFilters, openBottomSheet, closeBottomSheet,
 
     useEffect(() => {
         if (selectedItems.length == 0) {
-            closeBottomSheet()
+            API.closeBottomSheet()
         } else {
-            openBottomSheet({ length: selectedItems.length })
+            API.openBottomSheet({ length: selectedItems.length })
         }
 
     }, [selectedItems])
@@ -90,14 +102,13 @@ const Exams = ({ searchRequest, clearFilters, openBottomSheet, closeBottomSheet,
         }
         if (examsPage.menu == 1) {
             if (menu !== 1) {
-                closeBottomSheet()
+                API.closeBottomSheet()
                 setMenu(1)
             }
         }
     }, [examsPage])
 
     const onDeleteItem = (arg) => {
-        console.log('onDelteItem: ', arg,)
         if (arg === 'all') {
             setSelectedItems([])
         } else {
@@ -126,8 +137,16 @@ const Exams = ({ searchRequest, clearFilters, openBottomSheet, closeBottomSheet,
         }
 
         if (fetched && data && data.data) {
+            if (data.data.items.length == 0) {
+                return (
+                    <Grid item xs={12} style={{ minHeight: '100vh' }}>
+                        <Common.EmptyResults label={'No items to show!'} />
+                    </Grid>
+                )
+            }
+
             return (
-                <Grid item xs={12}>
+                <Grid item xs={12} style={{ minHeight: '100vh' }}>
                     <Inline>
                         <TotalLength>{total ? `${total} ${t('exercises total')}` : ''}</TotalLength>
                         {isMobile && (
@@ -164,7 +183,7 @@ const Exams = ({ searchRequest, clearFilters, openBottomSheet, closeBottomSheet,
     }
 
     if (menu == 1) return <Selected list={selectedItems} onBack={() => setMenu(0)} onDeleteItem={(id) => onDeleteItem(id)} />
-
+    console.log(1111, filtered)
     return (
         <Grid container xs={12}>
             {!isMobile && <Grid item xs={1} className={classes.root} />}
@@ -189,10 +208,12 @@ const Exams = ({ searchRequest, clearFilters, openBottomSheet, closeBottomSheet,
                         {!isMobile &&
                             <InlineSpaced>
                                 <Filtered>{t('filtered')}</Filtered>
-                                <IconButton onClick={() => {
-                                    clearFilters();
-                                    setFiltered({})
-                                }}>
+                                <IconButton
+                                    color="accent"
+                                    onClick={() => {
+                                        API.clearFilters();
+                                        setFiltered({})
+                                    }}>
                                     <HighlightOffIcon />
                                 </IconButton>
                             </InlineSpaced>}
@@ -225,12 +246,14 @@ const Exams = ({ searchRequest, clearFilters, openBottomSheet, closeBottomSheet,
                         <Box pt={3} width={1}>
                             {isMobile &&
                                 <Grid item xs={12} md={2}>
-                                    <Button fullWidth variant={'contained'} xs={12} color={'primary'}>{t('test')}</Button>
+                                    <Test onClick={() => API.openBottomSheet({ length: 1 })} fullWidth variant={'contained'} xs={12}>{t('test')}</Test>
                                 </Grid>}
-                            <Grid item xs={12} md={12}>
-                                <Common.Pagination
-                                    onPageChange={(selected) => setCurrent(selected)}
-                                />
+                            <Grid item container xs={12} md={12} justifyContent="center">
+                                <FullWidth>
+                                    <Common.Pagination
+                                        onPageChange={(selected) => setCurrent(selected - 1)}
+                                    />
+                                </FullWidth>
                             </Grid>
                         </Box>
                     </Grid>
@@ -246,19 +269,21 @@ const Exams = ({ searchRequest, clearFilters, openBottomSheet, closeBottomSheet,
 }
 
 Exams.propTypes = {
-    searchRequest: PropTypes.func,
-    clearFilters: PropTypes.func,
-    openBottomSheet: PropTypes.func,
-    closeBottomSheet: PropTypes.func,
-    changeExamsPage: PropTypes.func,
+    API: PropTypes.shape({
+        searchRequest: PropTypes.func,
+        clearFilters: PropTypes.func,
+        openBottomSheet: PropTypes.func,
+        closeBottomSheet: PropTypes.func,
+    })
 }
 
 export default connect(null, (dispatch) => {
     return {
-        searchRequest: p => dispatch(searchRequest(p)),
-        clearFilters: () => dispatch(clearFilters()),
-        openBottomSheet: (p) => dispatch(openBottomSheet(p)),
-        closeBottomSheet: () => dispatch(closeBottomSheet()),
-        changeExamsPage: p => dispatch(changeExamsPage(p)),
+        API: {
+            searchRequest: p => dispatch(searchRequest(p)),
+            clearFilters: () => dispatch(clearFilters()),
+            openBottomSheet: (p) => dispatch(openBottomSheet(p)),
+            closeBottomSheet: () => dispatch(closeBottomSheet()),
+        }
     }
 })(Exams)

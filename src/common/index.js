@@ -10,6 +10,7 @@ import Select from './Select'
 import Success from './Success'
 import ErrorDialog from './ErrorDialog'
 import LoadingBtn from './LoadingBtn'
+import EmptyResults from './EmptyResults'
 
 export default {
     Header,
@@ -24,4 +25,5 @@ export default {
     Success,
     ErrorDialog,
     LoadingBtn,
+    EmptyResults,
 }

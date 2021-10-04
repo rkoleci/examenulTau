@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { DialogContent, TextareaAutosize, Button } from '@material-ui/core'
+import { Typography, DialogContent, TextareaAutosize, Button } from '@material-ui/core'
 
 export const Label = styled.div`
     color: #9B9B9B;
@@ -25,4 +25,9 @@ export const Date = styled.div`
     justify-content: center;
     align-items: center;
     padding: 30px;
+`
+
+export const HeaderTitle = styled(Typography)`
+    color: #414142;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 `

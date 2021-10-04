@@ -1,4 +1,4 @@
-import types from '../../config/types'
+import types from 'config/types'
 
 export function searchRequest(state = {
   fetching: false,

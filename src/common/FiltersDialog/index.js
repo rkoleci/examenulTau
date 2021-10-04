@@ -5,7 +5,7 @@ import { IconButton, Dialog, Button } from '@material-ui/core'
 import HighlightOffIcon from '@material-ui/icons/HighlightOff';
 
 import { Container, Title, Apply } from './styles'
-import { clearFilters } from '../../core/actions/exams'
+import { clearFilters } from 'core/actions/exams'
 
 const FiltersDialog = ({ open, children, onClose, clearFilters, onClear, onApply }) => {
     return (

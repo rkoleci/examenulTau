@@ -5,8 +5,8 @@ import { useMediaQuery, Button } from '@material-ui/core'
 import { useTranslation } from 'react-i18next'
 
 import { Slider, Exercises, Image, CreateBtn, Container } from './styles.js'
-import { changeExamsPage } from '../../core/actions/exams'
-import ExerciseAddSVG from '../../assets/exerciseAdd.svg';
+import { changeExamsPage } from 'core/actions/exams'
+import ExerciseAddSVG from 'assets/exerciseAdd.svg';
 
 const BottomSheet = ({ changeExamsPage }) => {
     const [open, setOpen] = useState(false)
@@ -27,7 +27,7 @@ const BottomSheet = ({ changeExamsPage }) => {
     }, [bottomSheet])
 
     return (
-        <Slider open={open} isMobile={isMobile} >
+        <Slider open={open} isMobile={isMobile}>
             <Image src={ExerciseAddSVG} />
             {isMobile ? (
                 <Container>
@@ -41,8 +41,6 @@ const BottomSheet = ({ changeExamsPage }) => {
                 </>}
         </Slider >
     );
-
-
 }
 
 BottomSheet.propTypes = {

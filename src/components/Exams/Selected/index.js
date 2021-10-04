@@ -24,10 +24,10 @@ import {
 } from './styles'
 import { Title } from '../styles'
 
-import Common from '../../../common'
+import Common from 'common'
 import DragListItem from '../DragListItem'
 import SendTestModal from '../SendTestModal'
-import { changeExamsPage, closeBottomSheet } from '../../../core/actions/exams'
+import { changeExamsPage, closeBottomSheet } from 'core/actions/exams'
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -52,7 +52,7 @@ const Selected = ({ list, changeExamsPage, onDeleteItem, closeBottomSheet }) => 
             {!isMobile && <Grid item xs={2} className={classes.root} />}
 
             <Grid container xs={12} md={8} className={classes.root} >
-                <Box pt={!isMobile ? 7 : 2} width={1}>
+                <Box pt={!isMobile ? 2 : 0} width={1}>
                     <Title>{t('exercises')}</Title>
                     <Header>
                         <InlineLeft>

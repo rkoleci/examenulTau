@@ -1,7 +1,7 @@
 import axios from 'axios'
 
-import endpoints, { baseUrl } from '../../config/addresses'
-import types from '../../config/types'
+import endpoints, { baseUrl } from 'config/addresses'
+import types from 'config/types'
 
 export const searchRequest = (params) => {
   return (dispatch) => {

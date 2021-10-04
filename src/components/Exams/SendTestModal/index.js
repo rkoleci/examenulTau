@@ -15,16 +15,19 @@ import MuiDialogTitle from '@material-ui/core/DialogTitle'
 import CloseIcon from '@material-ui/icons/Close';
 import SendIcon from '@material-ui/icons/Send';
 
-import Common from '../../../common'
+import Common from 'common'
 import {
     Label,
     Content,
     Text,
     Date,
-    SendBtn
+    SendBtn, 
+    HeaderTitle,
 } from './styles'
-import { sendToClassRoom, clearSentToClassRoom } from '../../../core/actions/exams'
-import { studentList, classList } from '../../../config/constants'
+import { sendToClassRoom, clearSentToClassRoom } from 'core/actions/exams'
+import { studentList, classList } from 'config/constants'
+import { SendToClassRommSchema } from 'config/validation/exams'
+import { isEmpty } from 'config/utils'
 
 const styles = (theme) => ({
     root: {
@@ -43,12 +46,10 @@ const DialogTitle = withStyles(styles)((props) => {
     const { children, classes, onClose, ...other } = props;
     return (
         <MuiDialogTitle disableTypography className={classes.root} {...other}>
-            <Typography variant="h6">{children}</Typography>
-            {onClose ? (
-                <IconButton aria-label="close" className={classes.closeButton} onClick={onClose}>
-                    <CloseIcon />
-                </IconButton>
-            ) : null}
+            <HeaderTitle variant="h6">{children}</HeaderTitle>
+            <IconButton aria-label="close" className={classes.closeButton} onClick={() => onClose()}>
+                <CloseIcon color={"accent"} />
+            </IconButton>
         </MuiDialogTitle>
     );
 });
@@ -71,7 +72,7 @@ const styles_dialog = {
 const SendTestModal = ({ open, onClose, onFinish, classes, API }) => {
     const [success, setSuccess] = useState(false)
     const { t } = useTranslation()
-    const [data, setData] = useState()
+    const [data, setData] = useState({ name: '', description: '', student: '', class: '', timestamp: '' })
     const [error, setError] = useState('')
 
     const sendToClass = useSelector(state => state.EXAMS.sendToClassroom)
@@ -84,6 +85,16 @@ const SendTestModal = ({ open, onClose, onFinish, classes, API }) => {
         if (error) setError(t('send_dialog.server_error'))
 
     }, [sendToClass])
+
+    const onSubmit = () => {
+        SendToClassRommSchema
+            .validate(data, { abortEarly: false })
+            .then((valid) => {
+                if (valid) API.sendToClassRoom(data)
+            }).catch(err => {
+                setError(err.errors[0])
+            })
+    }
 
     return (
         <Dialog onClose={() => onClose()} aria-labelledby="customized-dialog-title" open={open} classes={{ paper: classes.dialogPaper }} >
@@ -104,12 +115,13 @@ const SendTestModal = ({ open, onClose, onFinish, classes, API }) => {
                 </>
                 :
                 <>
-                    <DialogTitle>{t('send test')}</DialogTitle>
+                    <DialogTitle onClose={() => onClose()}>{t('send test')}</DialogTitle>
                     <Content dividers>
                         <>
                             <Grid container spacing={4}>
                                 <Grid item md={6} xs={12}>
                                     <TextArea
+                                        name="name"
                                         label={t('send_dialog.test name')}
                                         onChange={(e) => setData({ ...data, ['name']: e })}
                                     />
@@ -121,6 +133,7 @@ const SendTestModal = ({ open, onClose, onFinish, classes, API }) => {
                                 </Grid>
                                 <Grid item md={6} xs={12}>
                                     <TextArea
+                                        name="description"
                                         label={t('send_dialog.test description')}
                                         onChange={(e) => setData({ ...data, ['description']: e })}
                                     />
@@ -134,6 +147,7 @@ const SendTestModal = ({ open, onClose, onFinish, classes, API }) => {
 
                             <Date container md={12} justifyContent="center">
                                 <TextField
+                                    name="datetime"
                                     id="datetime-local"
                                     label=""
                                     type="datetime-local"
@@ -150,8 +164,10 @@ const SendTestModal = ({ open, onClose, onFinish, classes, API }) => {
                                     variant="contained"
                                     startIcon={<SendIcon />}
                                     color="secondary"
-                                    onClick={() => API.sendToClassRoom(data)}
+                                    onClick={() => onSubmit()}
                                     fullWidth
+                                    disabled={isEmpty(data)}
+
                                 >
                                     {t('send test')}
                                 </SendBtn>
@@ -177,6 +193,10 @@ const mapDispatchToProps = (dispatch) => {
 SendTestModal.propTypes = {
     open: PropTypes.bool,
     onClose: PropTypes.func,
+    API: PropTypes.shape({
+        sendToClassRoom: PropTypes.func,
+        clearSentToClassRoom: PropTypes.func,
+    })
 }
 
 export default connect(null, mapDispatchToProps)(withStyles(styles_dialog)(SendTestModal))

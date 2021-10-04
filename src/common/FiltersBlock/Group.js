@@ -25,20 +25,20 @@ import {
 } from './styles'
 import CheckList from './CheckList'
 
-const Group = ({ title, items }) => {
+const Group = ({ id, title, items, onChange }) => {
+  
     return (
         <ItemContainer>
             <Accordion>
                 <AccordionSummary
                     expandIcon={<ExpandMoreIcon />}
-                    aria-controls="panel1a-content"
-                    id="panel1a-header"
+                    aria-controls="panel1a-content" 
                 >
                     <Category>{title}</Category>
                 </AccordionSummary>
                 <AccordionDetails>
                     <FullWidth style={{ width: '100%' }}>
-                        <CheckList items={items} />
+                        <CheckList key={`${id}-checklist`}  items={items} onChange={data => onChange({ title, data })} />
                     </FullWidth>
                 </AccordionDetails>
             </Accordion>
@@ -49,6 +49,7 @@ const Group = ({ title, items }) => {
 Group.propTypes = {
     title: PropTypes.string,
     items: PropTypes.array,
+    onChange: PropTypes.func,
 }
 
 export default Group

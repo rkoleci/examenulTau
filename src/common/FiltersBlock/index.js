@@ -27,15 +27,22 @@ import {
 } from './styles'
 import Group from './Group'
 
+let nested = {}
+
 const FiltersBlock = ({ title, type, filters, onFilterChanged, filtered }) => {
     const [checked, setChecked] = useState([]);
     const [expanded, setExpanded] = useState(false);
-
+    const [nestedChecked, setNestedChecked] = useState()
+    
     const clearFilters = useSelector(state => state.EXAMS.clearFilters)
 
     useEffect(() => {
         onFilterChanged(checked)
     }, [checked])
+
+    useEffect(() => {
+        onFilterChanged(nestedChecked)
+    }, [nestedChecked])
 
     useEffect(() => {
         const { clear } = clearFilters
@@ -47,22 +54,37 @@ const FiltersBlock = ({ title, type, filters, onFilterChanged, filtered }) => {
         !checked.includes(f) ? setChecked([...checked, f]) : setChecked(checked.filter(i => i !== f))
     }
 
-    if (type == 'chapter') {
+    const onGroupChange = (data) => {
+        // setNestedChecked({
+        //     ...nestedChecked,
+        //     [data.title]: data.data
+        // })
+
+        nested = {
+            ...nested,
+            [data.title]: data.data
+        }
+         
+    } 
+
+    if (type === 'chapter') { 
         return (
             <ItemContainer>
                 <Accordion>
                     <AccordionSummary
                         expandIcon={<ExpandMoreIcon />}
                         aria-controls="panel1a-content"
-                        id="panel1a-header"
+                        id={type}
                     >
                         <Category>{title}</Category>
                     </AccordionSummary>
                     <AccordionDetails>
                         <FullWidth style={{ width: '100%' }}>
-                            {filters,filters.map(f => (
-                                <Group {...f} />
-                            ))} 
+                            {filters.map((f, x) => { 
+                                return (
+                                    <Group key={f.id} {...f} onChange={(data) => onGroupChange(data)} />
+                                )
+                            })}
                         </FullWidth>
                     </AccordionDetails>
                 </Accordion>
@@ -76,15 +98,14 @@ const FiltersBlock = ({ title, type, filters, onFilterChanged, filtered }) => {
                 <AccordionSummary
                     expandIcon={<ExpandMoreIcon />}
                     aria-controls="panel1a-content"
-                    id="panel1a-header"
+                    id={type}
                 >
                     <Category>{title}</Category>
                 </AccordionSummary>
                 <AccordionDetails>
                     <FullWidth style={{ width: '100%' }}>
-                        {filters.map((f, x) => {
-
-                            return (
+                        {filters.map(f => (
+                            (
                                 <ListItemContainer role={undefined} dense button onClick={() => onCheckChanged(f)} style={{ paddingTop: 0, paddingBottom: 0 }}>
                                     <ListItemIcon>
                                         <Checkbox
@@ -99,7 +120,7 @@ const FiltersBlock = ({ title, type, filters, onFilterChanged, filtered }) => {
                                     <ListItemText id={f} primary={f} />
                                 </ListItemContainer>
                             )
-                        })}
+                        ))}
                     </FullWidth>
                 </AccordionDetails>
             </Accordion>
@@ -115,4 +136,4 @@ FiltersBlock.propTypes = {
     filtered: PropTypes.array,
 }
 
-export default FiltersBlock;
+export default FiltersBlock

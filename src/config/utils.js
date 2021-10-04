@@ -1,0 +1,1 @@
+export const isEmpty = data => Object.values(data).filter(i => i == '').length > 0

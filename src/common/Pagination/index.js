@@ -1,16 +1,13 @@
 import PropTypes from 'prop-types'
 import React, { useState, useEffect } from 'react'
 import { useSelector } from 'react-redux'
-import ReactPaginate from 'react-paginate';
-import {
-    Grid,
-} from '@material-ui/core'
-import './pagination.css'
+import { Pagination } from '@mui/material'
+
+import { Container } from './styles'
 
 const PAGE_RESULTS_LIMIT = 10;
 
 const Paging = ({ onPageChange }) => {
-    const [currentPage, setCurrentPage] = useState(1);
     const [max, setMax] = useState(0)
     const results = useSelector(state => state.EXAMS.searchRequest)
 
@@ -24,22 +21,15 @@ const Paging = ({ onPageChange }) => {
 
     if (max > 0 && results.fetched) {
         return (
-            <div>
-                <Grid container xs={12} justify="center">
-                    <ReactPaginate
-                        previousLabel={"prev"}
-                        nextLabel={"next"}
-                        breakLabel={"..."}
-                        breakClassName={"break-me"}
-                        pageCount={max}
-                        marginPagesDisplayed={2}
-                        pageRangeDisplayed={5}
-                        onPageChange={p => onPageChange(p.selected)}
-                        containerClassName={"pagination"}
-                        subContainerClassName={"pages pagination"}
-                        activeClassName={"active"} />
-                </Grid>
-            </div>
+            <Container>
+                <Pagination
+                    count={max}
+                    variant="outlined"
+                    shape="rounded"
+                    color={'primary'}
+                    onChange={(e, p) => onPageChange(p)}
+                />
+            </Container>
         )
     }
 

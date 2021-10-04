@@ -2,12 +2,13 @@ import styled from 'styled-components'
 import { Button } from '@material-ui/core'
 
 export const Slider = styled.div`
+    box-sizing: border-box;
     position: fixed;
     width: 50%;
     bottom: 0;
     left: 25%;
     right: 0;
-    transform: ${props => props.open ? 'translateY(0)' : 'translateY(100px)' };
+    transform: ${props => props.open ? 'translateY(0)' : 'translateY(170px)' };
     transition: .3s;
 
     background: #5E5E64;
@@ -30,6 +31,11 @@ export const Exercises = styled.p`
     font-size: 20px;
     color: white; 
     font-family: Helvetica Neue;
+    text-align: center;
+
+    @media screen and (max-width: 450px) {
+        text-align: center;
+    }
 `
 
 export const Image = styled.img`

@@ -23,11 +23,11 @@ import {
     Image,
     InlineSpaced,
 } from './styles'
-import difficultyEasy from '../../assets/difficultyEasy.svg'
-import difficultyMedium from '../../assets/difficultyMedium.svg'
-import difficultyHard from '../../assets/difficultyHard.svg'
-import difficultyVHard from '../../assets/difficultyVHard.svg'
-import { mathJaxConfig } from '../../config/constants'
+import difficultyEasy from 'assets/difficultyEasy.svg'
+import difficultyMedium from 'assets/difficultyMedium.svg'
+import difficultyHard from 'assets/difficultyHard.svg'
+import difficultyVHard from 'assets/difficultyVHard.svg'
+import { mathJaxConfig } from 'config/constants'
 
 const ExamItem = ({ id, curriculum, body: { content }, selected, onSelect, onPreviewOpen, onErrorDialog }) => {
     const { t, i18n } = useTranslation();
@@ -36,14 +36,14 @@ const ExamItem = ({ id, curriculum, body: { content }, selected, onSelect, onPre
         <Grid key={id} container xs={12}>
             <Card>
                 <CardContent>
-                    <InlineSpaced   >
+                    <InlineSpaced>
                         <Category>{curriculum}</Category>
                         <ReportError onClick={() => onErrorDialog(id)}>Error?</ReportError>
                     </InlineSpaced> 
                     <Description>
                         <MathJaxContext config={mathJaxConfig} version={3}>
                             <MathJax dynamic inline>
-                                {content}
+                                {content.replace( /(<([^>]+)>)/ig, '')}
                             </MathJax>
                         </MathJaxContext>
                     </Description>

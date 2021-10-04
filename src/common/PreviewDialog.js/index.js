@@ -7,12 +7,13 @@ import {
     Dialog,
     DialogContent,
     Typography,
+    useMediaQuery
 } from '@material-ui/core'
 import MuiDialogTitle from '@material-ui/core/DialogTitle'
 import CloseIcon from '@material-ui/icons/Close';
 
-import { Image } from './styles'
-import T1_1 from '../../assets/T1-1.png'
+import { HeaderTitle, Image } from './styles'
+import T1_1 from 'assets/T1-1.png'
 
 const styles = (theme) => ({
     root: {
@@ -31,10 +32,10 @@ const DialogTitle = withStyles(styles)((props) => {
     const { children, classes, onClose, ...other } = props;
     return (
         <MuiDialogTitle disableTypography className={classes.root} {...other}>
-            <Typography variant="h6">{children}</Typography>
+            <HeaderTitle variant="h6">{children}</HeaderTitle>
             {onClose ? (
                 <IconButton aria-label="close" className={classes.closeButton} onClick={onClose}>
-                    <CloseIcon />
+                    <CloseIcon color={"accent"} />
                 </IconButton>
             ) : null}
         </MuiDialogTitle>
@@ -43,6 +44,7 @@ const DialogTitle = withStyles(styles)((props) => {
 
 const PreviewDialog = ({ openPreview, onClose }) => {
     const { t } = useTranslation()
+    const isMobile = useMediaQuery('(max-width:450px)');
 
     return (
         <>
@@ -51,7 +53,7 @@ const PreviewDialog = ({ openPreview, onClose }) => {
                     {t('preview')}
                 </DialogTitle>
                 <DialogContent dividers>
-                    <Image src={T1_1} />
+                    <Image src={T1_1} width={isMobile ? window.innerWidth*0.7 : '400px'} />
                 </DialogContent>
             </Dialog>
         </>

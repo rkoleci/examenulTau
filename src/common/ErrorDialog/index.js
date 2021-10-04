@@ -15,16 +15,28 @@ import {
     Close,
 } from './styles'
 import { ListItemContainer } from '../FiltersBlock/styles'
-import Common from '../../common'
-import svg from '../../assets/error.svg'
-import { useTranslatedStrings } from '../../config/hooks'
+import Common from 'common'
+import svg from 'assets/error.svg'
+import { useTranslatedStrings } from 'config/hooks'
+import { ReportErrorSchema } from 'config/validation/exams'
 
 const ErrorDialog = ({ open, onClose, id }) => {
     const [error, setError] = useState('')
     const [message, setMessage] = useState('')
+    const [errorMessage, setErrorMessage] = useState('')
     const [success, setSuccess] = useState(false)
     const { t } = useTranslation()
     const exerciseErrors = useTranslatedStrings('exerciseErrors')
+
+    const onSubmit = () => {
+        ReportErrorSchema
+            .validate({ error }, { abortEarly: false })
+            .then((valid) => {
+                if (valid) setSuccess(true)
+            }).catch(error => {
+                setErrorMessage(error.errors[0])
+            })
+    }
 
     return (
         <Dialog open={open} onClose={() => onClose()}>
@@ -40,12 +52,12 @@ const ErrorDialog = ({ open, onClose, id }) => {
                         <SubTitle>{t('error_dialog.subtitle')}</SubTitle>
                         <Image src={svg} />
                         {exerciseErrors.map(e => (
-                            <ListItemContainer role={undefined} dense button onClick={() => setError(e)}>
+                            <ListItemContainer role={undefined} dense button onClick={() => setError(error == e ? '' : e)}>
                                 <ListItemIcon>
                                     <Checkbox
                                         edge="start"
                                         checked={error === e}
-                                        onChange={() => setError(e)}
+                                        onChange={() => setError(error == e ? '' : e)}
                                         tabIndex={-1}
                                         disableRipple
                                         color={'primary'}
@@ -57,8 +69,8 @@ const ErrorDialog = ({ open, onClose, id }) => {
                         {error === exerciseErrors[3] && (
                             <TextArea minRows={4} onChange={e => setMessage(e.target.value)} />
                         )}
-                        <Common.LoadingBtn loading={false}>
-                            <Send onClick={() => setSuccess(true)} fullWidth color={'primary'} variant="contained">{t('error_dialog.send')}</Send>
+                        <Common.LoadingBtn loading={false} errorLabel={errorMessage}>
+                            <Send onClick={() => onSubmit()} fullWidth color={'primary'} variant="contained">{t('error_dialog.send')}</Send>
                         </Common.LoadingBtn>
                     </Container>
                     <Close>

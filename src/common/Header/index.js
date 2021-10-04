@@ -16,7 +16,7 @@ import SearchIcon from '@material-ui/icons/Search';
 import { useTranslation } from 'react-i18next';
 
 import { AvatarIcon, SecondaryText } from './styles'
-import { useTranslatedStrings } from '../../config/hooks'
+import { useTranslatedStrings } from 'config/hooks'
 
 const useStyles = makeStyles((theme) => ({
     grow: {
@@ -146,7 +146,7 @@ const Header = () => {
         <div className={classes.grow}>
             <AppBar position="static">
                 <Toolbar>
-                    <image src={'../../assets/logo.png'} />
+                    <image src={'assets/logo.png'} />
 
                     <div className={classes.grow} />
 

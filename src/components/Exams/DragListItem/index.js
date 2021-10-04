@@ -14,7 +14,7 @@ import {
     Description,
     BottomRight
 } from './styles'
-import img from '../../../assets/T1-1.png'
+import img from 'assets/T1-1.png'
 
 const DragListItem = ({ customProps }) => {
     return (

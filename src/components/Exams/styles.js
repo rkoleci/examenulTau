@@ -28,7 +28,7 @@ export const TotalLength = styled.p`
     text-align: left;
 
     @media screen and (max-width: 450px) {
-        text-align: center;
+        text-align: left;
     }
 `
 export const Filtered = styled.p`
@@ -40,3 +40,5 @@ export const Filtered = styled.p`
     text-transform: uppercase;
     font-weight: bold;
 `
+
+export const FullWidth = styled.div``

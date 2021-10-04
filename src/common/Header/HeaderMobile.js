@@ -22,7 +22,7 @@ import InboxIcon from '@material-ui/icons/MoveToInbox';
 import MailIcon from '@material-ui/icons/Mail';
 import MenuIcon from '@material-ui/icons/Menu'
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
-import { useTranslatedStrings } from '../../config/hooks'
+import { useTranslatedStrings } from 'config/hooks'
 
 import { AvatarIcon } from './styles'
 
