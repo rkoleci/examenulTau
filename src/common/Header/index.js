@@ -6,7 +6,6 @@ import {
     Toolbar,
     Typography,
     InputBase,
-    MenuItem,
     Select,
     Button,
     ListItem,
@@ -15,8 +14,10 @@ import {
 import SearchIcon from '@material-ui/icons/Search';
 import { useTranslation } from 'react-i18next';
 
-import { AvatarIcon, SecondaryText } from './styles'
+import { Header, Image, Inline, ProfileIcon, Type, Name, Logout, MenuItem, MenuItemContainer, New, VerticalCenter } from './styles'
 import { useTranslatedStrings } from 'config/hooks'
+import logo from '../../assets/logo.png'
+import Svg from '../../assets/avatar.svg'
 
 const useStyles = makeStyles((theme) => ({
     grow: {
@@ -112,7 +113,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const Header = () => {
+const HeaderDesktop = () => {
     const { t } = useTranslation();
     const classes = useStyles();
     const [anchorEl, setAnchorEl] = React.useState(null);
@@ -142,73 +143,99 @@ const Header = () => {
 
     const menuId = 'primary-search-account-menu';
 
+    const onMenuItemClick = (item) => {
+
+    }
+
     return (
-        <div className={classes.grow}>
-            <AppBar position="static">
-                <Toolbar>
-                    <image src={'assets/logo.png'} />
+        <Header>
+            <Image src={logo} />
+            <Inline top>
+                {menuList.map((i, x) => (
+                    <MenuItemContainer new={x == 2} onClick={() => onMenuItemClick(i)}>
+                        <New new={x == 2}>New</New>
+                        <MenuItem new={x == 2}>{i}</MenuItem>
+                    </MenuItemContainer>
+                ))}
+            </Inline>
+            <Inline>
+                <VerticalCenter>
+                    <Type>Cont Professor:</Type>
+                    <Name>rei rei</Name>
+                    <Logout>log out</Logout>
+                </VerticalCenter>
+               
+            </Inline>
+        </Header>
+    )
 
-                    <div className={classes.grow} />
+    // return (
+    //     <div className={classes.grow}>
+    //         <AppBar position="static">
+    //             <Toolbar>
+    //                 <image src={'assets/logo.png'} />
 
-                    <div className={classes.center}>
-                        <Select
-                            labelId="demo-simple-select-label"
-                            id="demo-simple-select"
-                            value={'Mathematics'}
-                            onChange={(v) => console.log(v)}
-                            style={{ color: 'white', }}
+    //                 <div className={classes.grow} />
 
-                        >
-                            <MenuItem value={'Mathematics'} >Mathematics</MenuItem>
-                            <MenuItem value={'Romania'}>Romania</MenuItem>
-                        </Select>
-                    </div>
-                    <div className={classes.grow} />
+    //                 <div className={classes.center}>
+    //                     <Select
+    //                         labelId="demo-simple-select-label"
+    //                         id="demo-simple-select"
+    //                         value={'Mathematics'}
+    //                         onChange={(v) => console.log(v)}
+    //                         style={{ color: 'white', }}
 
-                    {menuList.map(item => (
-                        <Link to={`/${item}`} style={{
-                            textDecoration: "none",
-                            color: 'white'
-                        }}>
-                            <Button
-                                color="inherit"
-                                href={item.toLowerCase()}
-                                className={classes.menuItem}>
-                                {item}
-                            </Button>
-                        </Link>
-                    ))}
+    //                     >
+    //                         <MenuItem value={'Mathematics'} >Mathematics</MenuItem>
+    //                         <MenuItem value={'Romania'}>Romania</MenuItem>
+    //                     </Select>
+    //                 </div>
+    //                 <div className={classes.grow} />
 
-                    <div className={classes.grow} />
-                    <div className={classes.center}>
-                        <div className={classes.searchIcon}>
-                            <SearchIcon />
-                        </div>
-                        <InputBase
-                            placeholder="Search…"
-                            classes={{
-                                root: classes.inputRoot,
-                                input: classes.inputInput,
-                            }}
-                            inputProps={{ 'aria-label': 'search' }}
-                        />
-                    </div>
+    //                 {menuList.map(item => (
+    //                     <Link to={`/${item}`} style={{
+    //                         textDecoration: "none",
+    //                         color: 'white'
+    //                     }}>
+    //                         <Button
+    //                             color="inherit"
+    //                             href={item.toLowerCase()}
+    //                             className={classes.menuItem}>
+    //                             {item}
+    //                         </Button>
+    //                     </Link>
+    //                 ))}
 
-                    <div className={classes.grow} />
-                    <div className={classes.sectionDesktop}>
+    //                 <div className={classes.grow} />
+    //                 <div className={classes.center}>
+    //                     <div className={classes.searchIcon}>
+    //                         <SearchIcon />
+    //                     </div>
+    //                     <InputBase
+    //                         placeholder="Search…"
+    //                         classes={{
+    //                             root: classes.inputRoot,
+    //                             input: classes.inputInput,
+    //                         }}
+    //                         inputProps={{ 'aria-label': 'search' }}
+    //                     />
+    //                 </div>
 
-                        <ListItem>
-                            <ListItemText 
-                                primary={'Rei Koleci'} 
-                                secondary={<SecondaryText>{t('professor')}</SecondaryText>} 
-                            />
-                            <AvatarIcon>RK</AvatarIcon>
-                        </ListItem>
-                    </div> 
-                </Toolbar>
-            </AppBar> 
-        </div>
-    );
+    //                 <div className={classes.grow} />
+    //                 <div className={classes.sectionDesktop}>
+
+    //                     <ListItem>
+    //                         <ListItemText 
+    //                             primary={'Rei Koleci'} 
+    //                             secondary={<SecondaryText>{t('professor')}</SecondaryText>} 
+    //                         />
+    //                         <AvatarIcon>RK</AvatarIcon>
+    //                     </ListItem>
+    //                 </div> 
+    //             </Toolbar>
+    //         </AppBar> 
+    //     </div>
+    // );
 }
 
-export default Header
+export default HeaderDesktop
