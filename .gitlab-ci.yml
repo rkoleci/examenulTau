@@ -29,8 +29,6 @@ test:
     - npm run build
     - CI=true npm test
     - echo "Test successfully!"
-  only: 
-    - develop
 
 docker-build:
   stage: docker-build
