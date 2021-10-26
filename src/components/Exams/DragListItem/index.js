@@ -1,7 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {
-    ListItem,
+import { 
     Grid,
     IconButton,
 } from '@material-ui/core'

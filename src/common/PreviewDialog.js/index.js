@@ -5,8 +5,7 @@ import { useTranslation } from 'react-i18next'
 import {
     IconButton,
     Dialog,
-    DialogContent,
-    Typography,
+    DialogContent, 
     useMediaQuery
 } from '@material-ui/core'
 import MuiDialogTitle from '@material-ui/core/DialogTitle'

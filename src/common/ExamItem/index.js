@@ -6,7 +6,6 @@ import {
     CardContent,
     IconButton
 } from '@material-ui/core'
-import AccessibleIcon from '@material-ui/icons/Accessible';
 import ImageIcon from '@material-ui/icons/Image';
 import AddIcon from '@material-ui/icons/Add';
 import DeleteIcon from '@material-ui/icons/Delete';

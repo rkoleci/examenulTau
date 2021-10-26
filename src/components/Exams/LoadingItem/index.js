@@ -1,5 +1,4 @@
-import React from 'react'
-import PropTypes from 'prop-types'
+import React from 'react'  
 import Skeleton from 'react-loading-skeleton';
 
 import { Inline } from './styles'
@@ -20,10 +19,6 @@ const LoadingItem = () => {
 
         </>
     )
-}
-
-LoadingItem.propTypes = {
-
-}
+} 
 
 export default LoadingItem

@@ -1,10 +1,8 @@
 import React, { useState, useEffect, useCallback } from 'react'
 import PropTypes from 'prop-types'
 import { makeStyles } from '@material-ui/core/styles';
-import {
-    ListItemIcon,
-    Checkbox,
-    ListItemText,
+import { 
+    Checkbox, 
     AccordionDetails,
     Accordion,
     AccordionSummary
@@ -12,8 +10,7 @@ import {
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
 import {
-    ItemContainer,
-    Category,
+    ItemContainer, 
     SubCategory,
     FullWidth,
     Inline

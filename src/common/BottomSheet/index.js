@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types'
 import { connect, useSelector } from 'react-redux'
-import { useMediaQuery, Button } from '@material-ui/core'
+import { useMediaQuery } from '@material-ui/core'
 import { useTranslation } from 'react-i18next'
 
 import { Slider, Exercises, Image, CreateBtn, Container } from './styles.js'
