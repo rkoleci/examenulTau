@@ -1,20 +1,8 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
 import { alpha, makeStyles } from '@material-ui/core/styles';
-import {
-    AppBar,
-    Toolbar,
-    Typography,
-    InputBase,
-    Select,
-    Button,
-    ListItem,
-    ListItemText
-} from '@material-ui/core'
-import SearchIcon from '@material-ui/icons/Search';
 import { useTranslation } from 'react-i18next';
 
-import { Header, Image, Inline, ProfileIcon, Type, Name, Logout, MenuItem, MenuItemContainer, New, VerticalCenter } from './styles'
+import { Header, Image, Inline, Type, Name, Logout, MenuItem, MenuItemContainer, New, VerticalCenter } from './styles'
 import { useTranslatedStrings } from 'config/hooks'
 import logo from '../../assets/logo.png'
 import Svg from '../../assets/avatar.svg'

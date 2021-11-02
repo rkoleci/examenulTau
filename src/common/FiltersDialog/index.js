@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { IconButton, Dialog, Button } from '@material-ui/core'
+import { IconButton, Dialog } from '@material-ui/core'
 import HighlightOffIcon from '@material-ui/icons/HighlightOff';
 
 import { Container, Title, Apply } from './styles'

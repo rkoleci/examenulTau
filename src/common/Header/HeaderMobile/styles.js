@@ -15,21 +15,15 @@ export const Header = styled.div`
     align-items: center;
     z-index: 9000;
 `
-
+ 
 export const MobileWrapper = styled.div`
-    position: absolute;
-    top: 0;
-    left: 0;
     width: calc(100% - 20px);
-    height: 0;
-    background: #fff;
-    transform: scaleY(0);  
-    transition: 0.5s;
-    z-index: 1000; 
+    max-height: ${props => props.open ? '550px' : 0};
     padding: 0 10px;
-
-    transform: ${props => props.open ? 'scaleY(100%)' : ''};
-    top: ${props => props.open ? '50px' : '0'}
+    background: #fff;
+    z-index: 1000;
+    transition: max-height 0.5s ease-in-out;
+    overflow: ${props => props.open ? 'auto' : 'hidden'};
 `
 
 export const Image = styled.img`
